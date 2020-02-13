@@ -2,6 +2,17 @@
            (replacing the palceholder with your Github name):
            https://api.github.com/users/<your name>
 */
+axios.get('https://api.github.com/users/TiffanyCrosby')
+  .then(response => {
+    console.log(response);
+    // response.data.forEach(item => {
+    //   let newPerson = people(item);
+    cards.appendChild(people(response.data));
+  })
+  .catch(error => {
+    console.log('Data Not Returned', error);
+  });
+
 
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
@@ -35,7 +46,7 @@ const followersArray = [];
     <h3 class="name">{users name}</h3>
     <p class="username">{users user name}</p>
     <p>Location: {users location}</p>
-    <p>Profile:  
+    <p>Profile:
       <a href={address to users github page}>{address to users github page}</a>
     </p>
     <p>Followers: {users followers count}</p>
@@ -46,7 +57,58 @@ const followersArray = [];
 
 */
 
-/* List of LS Instructors Github username's: 
+let cards = document.querySelector('.cards');
+
+function people(data) {
+
+  //create new elements
+  let card = document.createElement('div');
+  let img = document.createElement('img');
+  let cardInfo = document.createElement('div');
+  let name = document.createElement('h3');
+  let userName = document.createElement('p');
+  let location = document.createElement('p');
+  let profile = document.createElement('p');
+  let pgUrl = document.createElement('a');
+  let followers = document.createElement('p');
+  let following = document.createElement('p');
+  let bio = document.createElement('p');
+
+  //add classes to elements
+  card.classList.add('card');
+  cardInfo.classList.add('card-info');
+  name.classList.add('name');
+  userName.classList.add('userName');
+
+  //add attributes to elements
+  img.src = data.avatar_url;
+  name.textContent = data.name;
+  userName.textContent = data.login;
+  location.textContent = `Location: ${data.location}`;
+  profile.textContent = `Profile: ${data.url}`;
+  pgUrl.href = data.url;
+  followers.textContent = `Followers: ${data.followers}`;
+  following.textContent = `Following: ${data.following}`;
+  bio.textContent = `Bio: ${data.bio}`;
+
+  //append/attach elements to card
+  card.append(img);
+  card.append(cardInfo);
+  cardInfo.append(name);
+  cardInfo.append(userName);
+  cardInfo.append(location);
+  cardInfo.append(profile);
+  profile.append(pgUrl);
+  cardInfo.append(followers);
+  cardInfo.append(following);
+  cardInfo.append(bio);
+  profile.append(pgUrl);
+
+
+  return card;
+}
+
+/* List of LS Instructors Github username's:
   tetondan
   dustinmyers
   justsml
